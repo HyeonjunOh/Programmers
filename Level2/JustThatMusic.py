@@ -1,24 +1,48 @@
+# def caltime(t):
+#     a = list(map(int, t.split(":")))
+#     return a[0]*60+a[1]
+# def splitinfo(infos):
+#     playtime = caltime(infos[1])-caltime(infos[0])
+#     sheet = []
+#     tmp = infos[3]
+#     while tmp:
+#         if "#" in tmp[:2]:
+#             sheet.append(tmp[:2])
+#             tmp = tmp[2:]
+#         else:
+#             sheet.append(tmp[:1])
+#             tmp = tmp[1:]
+#     a, b = divmod(playtime, len(sheet))
+#     sheet = sheet*a+sheet[:b]
+#     return [playtime, infos[2], "".join(sheet)]
+#
+# def solution(m, musicinfos):
+#     infos = [splitinfo(info.split(",")) for info in musicinfos]
+#     print(infos)
+#     infos = [[idx]+i for idx, i in enumerate(infos) if m in i[2].replace(m+"#", "-")]
+#     try:
+#         return sorted(infos, key=lambda x: (x[1], -x[0]))[-1][2]
+#     except:
+#         return '(None)'
+
+def replacesharp(s):
+    return s.replace('C#', 'c').replace('D#', 'd').replace('F#', 'f').replace('G#', 'g').replace('A#', 'a')
+
 def caltime(t):
     a = list(map(int, t.split(":")))
     return a[0]*60+a[1]
+
 def splitinfo(infos):
     playtime = caltime(infos[1])-caltime(infos[0])
-    sheet = []
-    tmp = infos[3]
-    while tmp:
-        if "#" in tmp[:2]:
-            sheet.append(tmp[:2])
-            tmp = tmp[2:]
-        else:
-            sheet.append(tmp[:1])
-            tmp = tmp[1:]
+    sheet = replacesharp(infos[3])
     a, b = divmod(playtime, len(sheet))
     sheet = sheet*a+sheet[:b]
     return [playtime, infos[2], "".join(sheet)]
 
 def solution(m, musicinfos):
     infos = [splitinfo(info.split(",")) for info in musicinfos]
-    infos = [[idx]+i for idx, i in enumerate(infos) if m in i[2].replace(m+"#", "-")]
+    print(infos)
+    infos = [[idx]+i for idx, i in enumerate(infos) if replacesharp(m) in i[2]]
     try:
         return sorted(infos, key=lambda x: (x[1], -x[0]))[-1][2]
     except:
