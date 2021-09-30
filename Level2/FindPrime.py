@@ -1,19 +1,11 @@
-from itertools import permutations
-
-def isprime(n):
-    if n < 2: return False
+def solution(n):
+    p = [0, 0] + [1]*(n-1)
     i = 2
-    while i <= n**.5:
-        if n%i == 0: return False
-        else: i += 1
-    return True
+    while i*i <= n:
+        for j in range(i*i, n+1, i):
+            p[j] = 0
+        i += 1
+    return sum(p)
 
-def solution(numbers):
-    answer = set()
-    for i in range(len(numbers)):
-        for j in permutations(numbers, i+1):
-            k = int(''.join(j))
-            if isprime(k): answer.add(k)
-    return len(answer)
 
-print(solution("011"))
+print(solution(10))
